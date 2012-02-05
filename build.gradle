@@ -1,0 +1,19 @@
+apply plugin: 'java'
+apply plugin: 'maven'
+
+group = 'se.lespinas.romain'
+version = '1.0-SNAPSHOT'
+
+configurations {
+    provided
+    testCompile.extendsFrom provided
+    compile.transitive = true
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile 'commons-io:commons-io:2.1'
+}
