@@ -1,1 +1,1 @@
-See [Jarvis website](rlespinasse.github.com/jarvis) for more infos
+See [Jarvis website](http://rlespinasse.github.com/jarvis) for more infos
