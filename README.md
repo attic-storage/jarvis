@@ -1,4 +1,4 @@
-# meet JARVIS, the jar toolbox [![build status](https://secure.travis-ci.org/rlespinasse/jarvis.png)](http://travis-ci.org/rlespinasse/jarvis)
+# meet JARVIS, the jar toolbox
 
  	Jarvis.getJarCartography(...);
  	Jarvis.getJarFilenameOfClass(...);

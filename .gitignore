@@ -1,9 +1,12 @@
 *.iml
-.idea
+*.ipr
+*.iws
+classes/
+.idea/
 .classpath
 .project
-.settings
-target
-.gradle
+.settings/
+target/
+.gradle/
 .DS_store
-build
+build/
