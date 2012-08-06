@@ -4,4 +4,5 @@
  	Jarvis.getJarFilenameOfClass(...);
  	Jarvis.getJarFileURLOfClass(...);
  	Jarvis.extractFiles(...);
+    Jarvis.loadAgent();
 

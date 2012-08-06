@@ -6,13 +6,102 @@
 
     <groupId>com.github.rlespinasse</groupId>
     <artifactId>jarvis</artifactId>
-    <version>1.0</version>
+    <version>1.1-SNAPSHOT</version>
     <packaging>jar</packaging>
+
+    <url>https://github.com/rlespinasse/jarvis</url>
+    <inceptionYear>2012</inceptionYear>
+
+    <scm>
+        <url>https://github.com/rlespinasse/jarvis</url>
+        <connection>scm:git:https://github.com/rlespinasse/jarvis.git</connection>
+        <developerConnection>scm:git:git@github.com:rlespinasse/jarvis.git</developerConnection>
+        <tag>javaagent</tag>
+    </scm>
+
+    <developers>
+        <developer>
+            <id>rlespinasse</id>
+            <name>Romain Lespinasse</name>
+            <email>romain@lespinas.se</email>
+        </developer>
+    </developers>
+
+    <ciManagement>
+        <system>travis</system>
+        <url>http://travis-ci.org/#!/rlespinasse/jarvis</url>
+    </ciManagement>
+
     <dependencies>
         <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
             <version>2.1</version>
         </dependency>
+        <dependency>
+            <groupId>com.sun</groupId>
+            <artifactId>tools</artifactId>
+            <version>1.6.0</version>
+            <scope>system</scope>
+            <systemPath>${java.home}/../lib/tools.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.10</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-invoker-plugin</artifactId>
+                <version>1.5</version>
+                <configuration>
+                    <projectsDirectory>src/it</projectsDirectory>
+                    <cloneProjectsTo>${project.build.directory}/it</cloneProjectsTo>
+                    <pomIncludes>
+                        <pomInclude>*/pom.xml</pomInclude>
+                    </pomIncludes>
+                    <settingsFile>src/it/settings.xml</settingsFile>
+                    <localRepositoryPath>${project.build.directory}/local-repo</localRepositoryPath>
+                    <postBuildHookScript>verify.bsh</postBuildHookScript>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>integration-test</id>
+                        <goals>
+                            <goal>install</goal>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <version>2.12</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>integration-test</goal>
+                            <goal>verify</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <additionalClasspathElements>
+                        <additionalClasspathElement>${project.build.outputDirectory}/../it/runtime-javaagent/target/runtime-javaagent-99.jar</additionalClasspathElement>
+                    </additionalClasspathElements>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    </properties>
 </project>

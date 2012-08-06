@@ -1,9 +1,14 @@
 package com.github.rlespinasse.jarvis;
 
+import com.sun.tools.attach.VirtualMachine;
+import se.lespinas.romain.jarvis.javaagent.JavaagentOption;
+import se.lespinas.romain.jarvis.beans.JarCartography;
+import se.lespinas.romain.jarvis.beans.JarResource;
 import com.github.rlespinasse.jarvis.beans.JarCartography;
 import com.github.rlespinasse.jarvis.beans.JarResource;
 
 import java.io.*;
+import java.lang.management.ManagementFactory;
 import java.net.JarURLConnection;
 import java.net.URL;
 import java.util.*;
@@ -17,7 +22,11 @@ import static org.apache.commons.io.FileUtils.copyInputStreamToFile;
 import static org.apache.commons.io.FilenameUtils.getName;
 
 /**
- * helper to manipulate internals resources and informations of a jar
+ * helper
+ * <ul>
+ * <li>to manipulate internals resources and informations of a jar</li>
+ * <li>to load a jar as an javaagent</li>
+ * </ul>
  *
  * @author Romain Lespinasse
  */
@@ -25,17 +34,97 @@ public final class Jarvis {
     private Jarvis() {}
 
     /**
+     * Load a Java Agent
+     * @param classOfAgent the class of Javaagent
+     * @param javaagentOptions a optionnal set of Key/Value as options for javaagent
+     * @return <code>true</code> if the javaagent is correctly loaded
+     * @throws ClassNotFoundException the javaagent class is not found
+     * @see java.lang.instrument
+     */
+    public static boolean loadAgent(String classOfAgent, Map<JavaagentOption, String> javaagentOptions) throws ClassNotFoundException {
+        return loadAgent(Class.forName(classOfAgent), javaagentOptions);
+    }
+
+    /**
+     * Load a Java Agent
+     * @param classOfAgent the class of Javaagent
+     * @param javaagentOptions a optionnal string representation of Key/Value as options for javaagent <br/>
+     *                     <code>[key1]=[value1],[key2]=[value2],[key3]=[value3]</code>
+     * @return <code>true</code> if the javaagent is correctly loaded
+     * @throws ClassNotFoundException the javaagent class is not found
+     * @see java.lang.instrument
+     */
+    public static boolean loadAgent(String classOfAgent, String javaagentOptions) throws ClassNotFoundException {
+        return loadAgent(Class.forName(classOfAgent), javaagentOptions);
+    }
+    
+    /**
+     * Load a Java Agent
+     * @param classOfAgent the class of Javaagent
+     * @param javaagentOptions a optionnal set of Key/Value as options for javaagent
+     * @return <code>true</code> if the javaagent is correctly loaded
+     * @see java.lang.instrument
+     */
+    public static boolean loadAgent(Class<?> classOfAgent, Map<JavaagentOption, String> javaagentOptions) {
+        String options = "";
+        if(javaagentOptions != null) {
+            for(Map.Entry<JavaagentOption, String> agentOption:javaagentOptions.entrySet()) {
+                options += ",";
+                options += agentOption.getKey().name();
+                options += "=";
+                options += agentOption.getValue();
+            }
+            if(options.length() > 0)
+                options = options.substring(1);
+        }
+        return loadAgent(classOfAgent, options);
+    }
+
+    /**
+     * Load a Java Agent
+     * @param classOfAgent the class of Javaagent
+     * @param javaagentOptions a optionnal string representation of Key/Value as options for javaagent <br/>
+     *                     <code>[key1]=[value1],[key2]=[value2],[key3]=[value3]</code>
+     * @return <code>true</code> if the javaagent is correctly loaded
+     * @see java.lang.instrument
+     */
+    public static boolean loadAgent(Class<?> classOfAgent, String javaagentOptions) {
+        System.out.println("Jarvis.loadAgent#start");
+        String nameOfRunningVM = ManagementFactory.getRuntimeMXBean().getName();
+        int p = nameOfRunningVM.indexOf('@');
+        String pid = nameOfRunningVM.substring(0, p);
+        try {
+            javaagentOptions = (javaagentOptions==null)?"":javaagentOptions;
+            System.out.println("Jarvis.loadAgent#javaagent_options="+javaagentOptions);
+            VirtualMachine vm = VirtualMachine.attach(pid);
+            System.out.println("Jarvis.loadAgent#vm="+vm.id());
+            String jarFilename = getJarFilenameOfClass(classOfAgent);
+            System.out.println("Jarvis.loadAgent#jar_filename="+jarFilename);
+            vm.loadAgent(jarFilename, javaagentOptions);
+            vm.detach();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+        System.out.println("Jarvis.loadAgent#end");
+        return true;
+    }
+
+    /**
      * get the jar url of a class
      * @param clazz class for jar search
      * @return a jar url
      * @throws IOException if an I/O exception occurs.
      */
-    public static URL getJarFileURLOfClass(Class<? extends Object> clazz) throws IOException {
+    public static URL getJarFileURLOfClass(Class<?> clazz) throws IOException {
+        System.out.println("Jarvis.getJarFileURLOfClass#start");
         if(clazz==null)
             return null;
         URL url = clazz.getResource("");
+        System.out.println("Jarvis.getJarFileURLOfClass#classURL="+url.toString());
         JarURLConnection connection = (JarURLConnection) url.openConnection();
         url = connection.getJarFileURL();
+        System.out.println("Jarvis.getJarFileURLOfClass#end");
         return url;
     }
 
@@ -45,7 +134,7 @@ public final class Jarvis {
      * @return a jar filename
      * @throws IOException if an I/O exception occurs.
      */
-    public static String getJarFilenameOfClass(Class<? extends Object> clazz) throws IOException {
+    public static String getJarFilenameOfClass(Class<?> clazz) throws IOException {
         URL url = getJarFileURLOfClass(clazz);
         if(url==null)
             return null;

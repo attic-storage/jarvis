@@ -1,0 +1,2 @@
+Premain-Class:com.github.rlespinasse.jarvis.javaagent.JarvisLoaderAgent
+Agent-Class:com.github.rlespinasse.jarvis.javaagent.JarvisLoaderAgent
