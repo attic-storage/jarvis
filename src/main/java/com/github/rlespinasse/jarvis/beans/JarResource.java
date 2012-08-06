@@ -1,4 +1,4 @@
-package se.lespinas.romain.jarvis.beans;
+package com.github.rlespinasse.jarvis.beans;
 
 import java.security.CodeSigner;
 import java.security.cert.Certificate;

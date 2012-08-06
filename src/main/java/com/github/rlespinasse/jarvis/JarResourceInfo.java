@@ -1,4 +1,4 @@
-package se.lespinas.romain.jarvis;
+package com.github.rlespinasse.jarvis;
 
 import java.util.Arrays;
 import java.util.List;

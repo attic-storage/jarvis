@@ -1,11 +1,11 @@
-package se.lespinas.romain.jarvis.beans;
+package com.github.rlespinasse.jarvis.beans;
 
-import se.lespinas.romain.jarvis.JarResourceInfo;
+import com.github.rlespinasse.jarvis.JarResourceInfo;
 
 import java.util.*;
 import java.util.jar.Manifest;
 
-import static se.lespinas.romain.jarvis.JarResourceInfo.DEFAULT;
+import static com.github.rlespinasse.jarvis.JarResourceInfo.DEFAULT;
 
 /**
  * cartography of a jar

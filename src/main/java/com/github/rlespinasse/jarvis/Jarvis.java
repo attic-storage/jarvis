@@ -1,9 +1,7 @@
-package se.lespinas.romain.jarvis;
+package com.github.rlespinasse.jarvis;
 
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.FilenameUtils;
-import se.lespinas.romain.jarvis.beans.JarCartography;
-import se.lespinas.romain.jarvis.beans.JarResource;
+import com.github.rlespinasse.jarvis.beans.JarCartography;
+import com.github.rlespinasse.jarvis.beans.JarResource;
 
 import java.io.*;
 import java.net.JarURLConnection;
