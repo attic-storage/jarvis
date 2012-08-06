@@ -6,7 +6,7 @@ import java.util.List;
 /**
  * define a information (or a group of informations) of a jar resource.
  *
- * @author Romain Lespinasse (romain.lespinas.se)
+ * @author Romain Lespinasse
  */
 public enum JarResourceInfo {
     NAME,

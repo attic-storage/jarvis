@@ -10,7 +10,7 @@ import static com.github.rlespinasse.jarvis.JarResourceInfo.DEFAULT;
 /**
  * cartography of a jar
  *
- * @author Romain Lespinasse (romain.lespinas.se)
+ * @author Romain Lespinasse
  */
 public class JarCartography {
 

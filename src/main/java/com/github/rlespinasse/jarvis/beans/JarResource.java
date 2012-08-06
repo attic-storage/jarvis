@@ -8,7 +8,7 @@ import java.util.jar.Attributes;
 /**
  * bean definition of a jar resource
  *
- * @author Romain Lespinasse (romain.lespinas.se)
+ * @author Romain Lespinasse
  */
 public class JarResource {
     private long time;

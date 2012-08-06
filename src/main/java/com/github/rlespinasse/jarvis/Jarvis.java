@@ -19,7 +19,7 @@ import static org.apache.commons.io.FilenameUtils.getName;
 /**
  * helper to manipulate internals resources and informations of a jar
  *
- * @author Romain Lespinasse (romain.lespinas.se)
+ * @author Romain Lespinasse
  */
 public final class Jarvis {
     private Jarvis() {}
