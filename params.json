@@ -1,0 +1,1 @@
+{"name":"Jarvis","tagline":"meet JARVIS, the jar toolbox","body":"```java\r\nJarvis.getJarCartography(...);\r\nJarvis.getJarFilenameOfClass(...);\r\nJarvis.getJarFileURLOfClass(...);\r\nJarvis.extractFiles(...);\r\n```\r\n","google":"UA-39576636-3","note":"Don't delete this file! It's used internally to help with page regeneration."}
