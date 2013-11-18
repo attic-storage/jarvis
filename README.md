@@ -5,3 +5,7 @@
  	Jarvis.getJarFileURLOfClass(...);
  	Jarvis.extractFiles(...);
 
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/rlespinasse/jarvis/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
